@@ -11,11 +11,9 @@ import { useAuth } from "../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import {
   LogIn,
-  UserPlus,
   ArrowRight,
   ArrowLeft,
   CheckCircle2,
-  ChevronRight,
   User,
   Phone,
   Mail,
