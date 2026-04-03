@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { auth } from "../lib/firebase";
 import { Search, Loader2, CheckCircle2, Package, User } from "lucide-react";
+import OrderDetailsModal from "../components/OrderDetailsModal";
 
 interface Order {
   id: string;
@@ -9,7 +10,7 @@ interface Order {
   items: { id: string; name: string; price: number }[];
   totalPrice: number;
   collectionCode: string;
-  status: "PENDING" | "COLLECTED";
+  status: "PENDING" | "COLLECTED" | "REDEEMED";
   createdAt: any;
 }
 
@@ -19,6 +20,7 @@ const AdminDashboard: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [inputCodes, setInputCodes] = useState<{ [orderId: string]: string }>(
     {},
   );
@@ -155,7 +157,8 @@ const AdminDashboard: React.FC = () => {
                 filteredOrders.map((order) => (
                   <tr
                     key={order.id}
-                    className="hover:bg-gray-50 transition-colors group"
+                    className="hover:bg-gray-50 transition-colors group cursor-pointer"
+                    onClick={() => setSelectedOrder(order)}
                   >
                     <td className="px-6 py-6">
                       <div className="flex items-center space-x-3">
@@ -215,6 +218,7 @@ const AdminDashboard: React.FC = () => {
                             maxLength={6}
                             placeholder="Code"
                             value={inputCodes[order.id] || ""}
+                            onClick={(e) => e.stopPropagation()}
                             onChange={(e) =>
                               setInputCodes((prev) => ({
                                 ...prev,
@@ -224,12 +228,13 @@ const AdminDashboard: React.FC = () => {
                             className="w-24 px-3 py-2 text-sm font-black tracking-widest rounded-lg bg-gray-50 border border-gray-100 focus:border-indigo-velvet outline-none transition-all"
                           />
                           <button
-                            onClick={() =>
+                            onClick={(e) => {
+                              e.stopPropagation();
                               handleFinalize(
                                 order.id,
                                 inputCodes[order.id] || "",
-                              )
-                            }
+                              );
+                            }}
                             disabled={
                               isProcessing[order.id] ||
                               inputCodes[order.id]?.length !== 6
@@ -257,6 +262,13 @@ const AdminDashboard: React.FC = () => {
           </table>
         </div>
       </div>
+
+      {selectedOrder && (
+        <OrderDetailsModal
+          order={selectedOrder}
+          onClose={() => setSelectedOrder(null)}
+        />
+      )}
     </div>
   );
 };
