@@ -1,0 +1,28 @@
+# Root .gitignore for MarsGrow
+
+# IDE / Editors
+.vscode/
+.idea/
+.DS_Store
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Node
+node_modules/
+
+# Local env files (handled by subprojects, but good to have here too)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ai assistant instructions
+ai-context.md
+app_summary.md
