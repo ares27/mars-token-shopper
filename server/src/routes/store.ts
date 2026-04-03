@@ -101,4 +101,48 @@ router.post("/checkout", verifyToken, async (req: Request, res: Response) => {
   }
 });
 
+// User Order History
+router.get("/orders", verifyToken, async (req: Request, res: Response) => {
+  const userId = (req as any).user.uid;
+  const limit = parseInt(req.query.limit as string) || 5;
+  const page = parseInt(req.query.page as string) || 1;
+  const offset = (page - 1) * limit;
+
+  try {
+    const ordersSnapshot = await db
+      .collection("orders")
+      .where("userId", "==", userId)
+      .orderBy("createdAt", "desc")
+      .limit(limit)
+      .offset(offset)
+      .get();
+
+    const orders = ordersSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    // For total count (simple for now)
+    const countSnapshot = await db
+      .collection("orders")
+      .where("userId", "==", userId)
+      .count()
+      .get();
+    const total = countSnapshot.data().count;
+
+    res.json({
+      orders,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    res.status(500).json({ error: "Failed to fetch orders" });
+  }
+});
+
 export default router;

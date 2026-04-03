@@ -20,7 +20,7 @@ import "./App.css";
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { user, loading } = useAuth();
+  const { user, profile, loading } = useAuth();
 
   if (loading) {
     return (
@@ -30,7 +30,8 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
     );
   }
 
-  if (!user) {
+  // Must have both Auth and Firestore Profile
+  if (!user || !profile) {
     return <Navigate to="/login" replace />;
   }
 
@@ -38,7 +39,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
 };
 
 const AppContent: React.FC = () => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
@@ -47,7 +48,9 @@ const AppContent: React.FC = () => {
         <Routes>
           <Route
             path="/login"
-            element={!user ? <LoginPage /> : <Navigate to="/" replace />}
+            element={
+              !user || !profile ? <LoginPage /> : <Navigate to="/" replace />
+            }
           />
           <Route
             path="/"

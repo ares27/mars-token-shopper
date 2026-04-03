@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
         </h1>
       </div>
 
-      {user && (
+      {user && profile && (
         <div className="flex items-center space-x-4">
           <Link
             to="/cart"

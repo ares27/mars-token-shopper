@@ -40,12 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             if (docSnap.exists()) {
               setProfile(docSnap.data() as UserProfile);
             } else {
-              // Set default profile if it doesn't exist
-              setProfile({
-                balance: 0,
-                role: "user",
-                email: currentUser.email || "",
-              });
+              setProfile(null);
             }
             setLoading(false);
           },
