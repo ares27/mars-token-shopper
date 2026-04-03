@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { auth } from "../lib/firebase";
-import {
-  Search,
-  Loader2,
-  CheckCircle2,
-  AlertCircle,
-  Clock,
-  Package,
-  MoreHorizontal,
-  User,
-} from "lucide-react";
+import { Search, Loader2, CheckCircle2, Package, User } from "lucide-react";
 
 interface Order {
   id: string;
@@ -24,6 +15,7 @@ interface Order {
 
 const AdminDashboard: React.FC = () => {
   const { profile } = useAuth();
+  console.log(profile);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");

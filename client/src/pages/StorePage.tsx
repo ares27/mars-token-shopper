@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useCart } from "../contexts/CartContext";
-import { Filter, Tag, CheckCircle2, X, ShoppingCart, Plus } from "lucide-react";
-import { auth } from "../lib/firebase";
+import { Filter, Tag, ShoppingCart, Plus } from "lucide-react";
+// import { auth } from "../lib/firebase";
 
 interface StoreItem {
   id: string;

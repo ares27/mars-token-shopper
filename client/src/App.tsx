@@ -65,6 +65,7 @@ const AppContent: React.FC = () => {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/topup"
             element={
@@ -73,6 +74,7 @@ const AppContent: React.FC = () => {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/redeem"
             element={

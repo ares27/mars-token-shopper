@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useCart } from "../contexts/CartContext";
 import { auth } from "../lib/firebase";
-import { Trash2, ShoppingBag, CheckCircle2, X, Loader2 } from "lucide-react";
+import { Trash2, ShoppingBag, CheckCircle2, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const CartPage: React.FC = () => {
